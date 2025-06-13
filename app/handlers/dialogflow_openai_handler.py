@@ -16,9 +16,14 @@ async def handle_dialogflow(request: Request):
         response = generate_chat_reply(messages)
         reply = response["choices"][0]["message"]["content"].strip()
         messages.append({"role": "assistant", "content": reply})
+
+        print("Percakapan sejauh ini:")
+        for m in messages:
+            print(f"{m['role']}: {m['content']}")
+        
         return JSONResponse({"fulfillmentText": reply, "source": "openai"})
 
-    if action == "welcome":
+    if action == "input.welcome":
         messages.clear()
         messages.extend(init_messages())
         welcome_msg = "Hai! Saya Robosemar, dokter virtual kamu. Ada keluhan yang ingin disampaikan?"
